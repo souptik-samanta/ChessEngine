@@ -72,7 +72,7 @@ function onDrop(source, target) {
 }
 
 function getAIMove() {
-    fetch('http://37.27.51.34:34445/get-move', {
+    fetch('https://cors-anywhere.herokuapp.com/corsdemo/http://37.27.51.34:34445/get-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fen: chess.fen() })
