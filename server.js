@@ -114,6 +114,6 @@ app.post('/validate-move', (req, res) => {
 });
 
 const port = 3000;
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
     console.log(`Chess server running on port ${port}`);
 });
