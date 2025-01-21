@@ -1,3 +1,5 @@
+
+const port = 34445; 
 const chess = new Chess();
 let moveNumber = 1;
 
@@ -20,7 +22,6 @@ const config = {
             'wK': 'img/wk.png',
             'wP': 'img/wp.png'
         };
-        return pieceMap[piece];
         return pieceMap[piece];
     }
 };
@@ -71,7 +72,7 @@ function onDrop(source, target) {
 }
 
 function getAIMove() {
-    fetch('http://localhost:3000/get-move', {
+    fetch('http://localhost:34445/get-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fen: chess.fen() })
