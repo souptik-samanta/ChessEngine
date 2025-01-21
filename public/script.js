@@ -72,7 +72,7 @@ function onDrop(source, target) {
 }
 
 function getAIMove() {
-    fetch('http://localhost:34445/get-move', {
+    fetch('http://0.0.0.0:34445/get-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fen: chess.fen() })
