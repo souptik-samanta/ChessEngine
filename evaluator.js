@@ -2,7 +2,7 @@
 
 class PositionEvaluator {
     constructor() {
-        // Piece values in centipawns
+        // Piece worth
         this.pieceValues = {
             p: 100,  // pawn
             n: 320,  // knight
@@ -58,14 +58,14 @@ class PositionEvaluator {
             }
         }
 
-        return score / 100; // Convert centipawns to pawns
+        return score / 100; // 
     }
 
     evaluatePawnStructure(chess) {
         let score = 0;
         const board = chess.board();
 
-        // Evaluate doubled pawns
+        // eval p
         for (let col = 0; col < 8; col++) {
             let whitePawns = 0;
             let blackPawns = 0;
@@ -80,12 +80,12 @@ class PositionEvaluator {
             if (blackPawns > 1) score += 0.3 * (blackPawns - 1);
         }
 
-        // Evaluate isolated and passed pawns
+        // Eval isp
         for (let col = 0; col < 8; col++) {
             for (let row = 0; row < 8; row++) {
                 const piece = board[row][col];
                 if (piece && piece.type === 'p') {
-                    // Check for isolated pawns
+                    // ? isp
                     let isIsolated = true;
                     if (col > 0 && this.hasPawnInFile(board, col - 1, piece.color)) isIsolated = false;
                     if (col < 7 && this.hasPawnInFile(board, col + 1, piece.color)) isIsolated = false;
@@ -94,7 +94,7 @@ class PositionEvaluator {
                         score += piece.color === 'w' ? -0.3 : 0.3;
                     }
 
-                    // Check for passed pawns
+                    // ? p
                     if (this.isPassedPawn(board, row, col, piece.color)) {
                         const rank = piece.color === 'w' ? 7 - row : row;
                         const bonus = 0.2 + (rank * 0.1);
@@ -140,8 +140,9 @@ class PositionEvaluator {
         if (castling.includes('Q')) score += 0.2;
         if (castling.includes('k')) score -= 0.2;
         if (castling.includes('q')) score -= 0.2;
+
         
-        // Check if already castled
+        //check 0 0 done?
         const board = chess.board();
         if (board[7][6] && board[7][6].type === 'k') score += 0.4;
         if (board[0][6] && board[0][6].type === 'k') score -= 0.4;
@@ -180,7 +181,6 @@ class PositionEvaluator {
         let score = 0;
         const board = chess.board();
         
-        // Check development of minor pieces
         if (board[7][1] && board[7][1].type === 'n') score -= 0.2;
         if (board[7][6] && board[7][6].type === 'n') score -= 0.2;
         if (board[7][2] && board[7][2].type === 'b') score -= 0.2;
@@ -196,7 +196,7 @@ class PositionEvaluator {
 
     evaluateMobility(chess) {
         const whiteMoves = chess.turn() === 'w' ? chess.moves().length : 0;
-        chess.move('e3'); // Make a dummy move to switch sides
+        chess.move('e3'); 
         const blackMoves = chess.turn() === 'b' ? chess.moves().length : 0;
         chess.undo();
         
