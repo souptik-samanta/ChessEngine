@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Chess</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Interactive Chess</h1>
+    <div class="container">
+        <div id="board" style="width: 400px;"></div>
+        <div class="side-panel">
+            <h3>Game Moves</h3>
+            <div id="moves-list"></div>
+            <div id="status">Your turn! Drag and drop pieces to make a move.</div>
+            <div class="controls">
+                <button id="aiMove">AI Move</button>
+                <button id="resetGame">Reset Game</button>
+                <button id="undoMove">Undo Move</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
