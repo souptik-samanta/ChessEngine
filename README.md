@@ -15,7 +15,7 @@ ChessEngine is a web-based application that allows users to play chess against a
 
 ## Deployment
 
-The application is deployed and accessible at [http://37.27.51.34:40467/](http://37.27.51.34:40467/).
+The application is deployed and accessible at https://chess-ai-wine.vercel.app/.
 
 
 ## Project Structure
