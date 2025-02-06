@@ -1,5 +1,3 @@
-
-const port = 34445; 
 const chess = new Chess();
 let moveNumber = 1;
 
@@ -71,27 +69,54 @@ function onDrop(source, target) {
     }
 }
 
-function getAIMove() {
-    fetch('http://37.27.51.34:34445/get-move', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fen: chess.fen() })
-    })
-    .then(response => response.json())
-    .then(data => {
+async function getAIMove() {
+    try {
+        // Use a CORS proxy to avoid CORS issues
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const apiUrl = 'https://chess-api-gamma.vercel.app/get-move'; // Removed extra slash
+        
+        const response = await fetch(proxyUrl + apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': window.location.origin,
+            },
+            body: JSON.stringify({ fen: chess.fen() })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
         if (data.move) {
             const move = chess.move(data.move);
+            if (move) {
+                board.position(chess.fen());
+                addMoveToList(move, 'AI');
+                statusElement.textContent = 'Your turn! Drag and drop pieces to make a move.';
+            } else {
+                statusElement.textContent = 'Invalid AI move received. Try again.';
+            }
+        } else {
+            statusElement.textContent = 'AI has no valid moves. Game over!';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        statusElement.textContent = 'Error getting AI move. Using fallback...';
+        // Fallback: Make a random legal move
+        const moves = chess.moves();
+        if (moves.length > 0) {
+            const randomMove = moves[Math.floor(Math.random() * moves.length)];
+            const move = chess.move(randomMove);
             board.position(chess.fen());
             addMoveToList(move, 'AI');
             statusElement.textContent = 'Your turn! Drag and drop pieces to make a move.';
         } else {
-            statusElement.textContent = 'AI has no valid moves. Game over!';
+            statusElement.textContent = 'No valid moves available. Game over!';
         }
-    })
-    .catch(err => {
-        console.error(err);
-        statusElement.textContent = 'Error getting AI move.';
-    });
+    }
 }
 
 document.getElementById('aiMove').addEventListener('click', getAIMove);
